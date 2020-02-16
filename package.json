@@ -1,0 +1,52 @@
+{
+  "name": "polymer-starter-kit",
+  "version": "4.0.0",
+  "description": "A starting point for Polymer apps",
+  "author": "The Polymer Authors",
+  "license": "BSD-3-Clause",
+  "repository": "Polymer/polymer-starter-kit",
+  "scripts": {
+    "start": "polymer serve",
+    "build": "polymer build",
+    "lint": "polymer lint",
+    "test": "polymer test",
+    "test:integration": "polymer build # test that psk builds without error with the CLI"
+  },
+  "dependencies": {
+    "@lrnwebcomponents/iron-data-table": "^2.0.10",
+    "@polymer/app-layout": "^3.0.0-pre.15",
+    "@polymer/app-route": "^3.0.0-pre.15",
+    "@polymer/gold-cc-cvc-input": "^3.0.2",
+    "@polymer/gold-cc-expiration-input": "^3.0.1",
+    "@polymer/gold-cc-input": "^3.0.1",
+    "@polymer/iron-ajax": "^3.0.1",
+    "@polymer/iron-flex-layout": "^3.0.0-pre.15",
+    "@polymer/iron-form": "^3.0.1",
+    "@polymer/iron-icons": "^3.0.1",
+    "@polymer/iron-iconset-svg": "^3.0.0-pre.15",
+    "@polymer/iron-input": "^3.0.1",
+    "@polymer/iron-localstorage": "^3.0.1",
+    "@polymer/iron-media-query": "^3.0.0-pre.15",
+    "@polymer/iron-meta": "^3.0.1",
+    "@polymer/iron-pages": "^3.0.0-pre.15",
+    "@polymer/iron-selector": "^3.0.0-pre.15",
+    "@polymer/paper-button": "^3.0.1",
+    "@polymer/paper-icon-button": "^3.0.0-pre.15",
+    "@polymer/paper-input": "^3.2.0",
+    "@polymer/paper-material": "^3.0.1",
+    "@polymer/paper-progress": "^3.0.1",
+    "@polymer/platinum-sw": "^3.0.0-pre.21",
+    "@polymer/polymer": "^3.0.0",
+    "@vaadin/vaadin-grid": "^5.5.1",
+    "@webcomponents/webcomponentsjs": "^2.0.0",
+    "brum-global-variable": "github:siebrum/brum-global-variable",
+    "gulp": "^4.0.2"
+  },
+  "devDependencies": {
+    "polymer-cli": "^1.9.11",
+    "wct-browser-legacy": "^1.0.0"
+  },
+  "engines": {
+    "node": ">=8.0"
+  }
+}
