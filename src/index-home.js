@@ -38,56 +38,37 @@ class Index extends PolymerElement {
         <p>Ut labores minimum atomorum pro. Laudem tibique ut has.</p>
         <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
       
-      <template is="dom-if" if="[[coordinates]]">
+      
         <iron-ajax id="weather-ajax"
           auto
           loading="{{activeRequest}}"
-          url='https://weather-ydn-yql.media.yahoo.com/forecastrss?lat=-34.6131500&lon=-58.3772300'
+          url='https://api.openweathermap.org/data/2.5/weather?id=3435910&APPID=8af2aa7fa978da0c3dc608a85406875c'
           handle-as="json"
           last-response="{{weatherResponse}}">
         </iron-ajax>
-      </template>
+ 
 
-      <paper-progress id="request-progress"
-        indeterminate
-        hidden$="[[!activeRequest]]">
-      </paper-progress>
+     
 
         <template is="dom-if" if="[[weatherResponse]]">
           <div class="horizontal justified layout">
             <h3 id="location">
               Weather for
-                <span>[[_calculateLocationString(weatherResponse.query.results.channel.location)]]</span>
+                <span>[[weatherResponse.name]] </span>
             </h3>
             <paper-icon-button icon="maps:my-location"
                   alt="Detect current location"
-                  disabled$="[[disableLocationButton]]"
-                  on-click="_getCurrentPosition">
             </paper-icon-button>
           </div>
 
-          <iron-icon id="weather-icon"
-            icon="[[_calculateWeatherIcon(weatherResponse.query.results.channel.item.condition.code)]]">
-          </iron-icon>
-
-          <h2>
-            <span>[[weatherResponse.query.results.channel.item.condition.temp]]</span>°
-            <span>[[weatherResponse.query.results.channel.units.temperature]]</span>,
-            <span>[[weatherResponse.query.results.channel.item.condition.text]]</span>
-          </h2>
+          
+          <h3><span>Temperatura [[weatherResponse.main.temp]]</span>°</h3>
+          <h3><span>Presion [[weatherResponse.main.pressure]]</span></h3>
+          <h3><span>Humedad [[weatherResponse.main.humidity]]</span></h3>
           <div class="horizontal justified layout">
-          <h5 id="update-time">
-            As of <span>[[weatherResponse.query.results.channel.item.condition.date]]</span>
-          </h5>
-          <paper-icon-button icon="refresh"
-                alt="Refresh current weather"
-                disabled$="[[activeRequest]]"
-                on-click="_requestWeatherData">
-          </paper-icon-button>
-        </div>
-        <a href="https://www.yahoo.com/?ilc=401" target="_blank">
-          <img src="https://poweredby.yahoo.com/purple.png">
-        </a>
+          
+          </div>
+        
       </template>
 
     </div>

@@ -13,6 +13,7 @@ import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
 import '@polymer/paper-button/paper-button.js';
 import '../node_modules/brum-global-variable/brum-global-variable.js'
 import '@polymer/polymer/lib/elements/dom-if.js';
+import '@polymer/app-route/app-location.js'
 import './shared-styles.js';
 
 class LogOut extends PolymerElement {
@@ -68,15 +69,13 @@ class LogOut extends PolymerElement {
       <template is="dom-if" if="{{link}}">
         <paper-button class="link" on-tap="logout">Log Out [[[storedUser.name]]]</paper-button>
       </template>
-
-      <div class="card">
-        <h1>LogOut</h1>
-      </div>
     `;
   }
 
   logout(){
       this.storedUser = null;
+      // redirect to movimentos
+      this.set('route.path', '/index-home');
   }
   
 }

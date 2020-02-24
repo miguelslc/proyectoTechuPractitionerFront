@@ -9,9 +9,19 @@
  */
 
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
+import '../node_modules/brum-global-variable/brum-global-variable.js';
+import '@polymer/iron-localstorage/iron-localstorage.js';
+import '@polymer/iron-ajax/iron-ajax.js';
+import '@vaadin/vaadin-grid/vaadin-grid';
 import './shared-styles.js';
 
 class Usuario extends PolymerElement {
+  static get properties() {
+    return {
+      storedUser: Object
+    };
+  }
+
   static get template() {
     return html`
       <style include="shared-styles">
@@ -21,59 +31,71 @@ class Usuario extends PolymerElement {
           padding: 10px;
         }
       </style>
+      
+      <iron-localstorage 
+        name="user-storage" 
+        value="{{storedUser}}" 
+        on-iron-localstorage-load="initStoredUser">
+      </iron-localstorage>
+    
+      <brum-global-variable 
+        key="userData" 
+        value="{{storedUser}}">
+      </brum-global-variable>
+    
+      <div hidden$="[[!storedUser.loggedin]]">
+        <div class="card">
+          <h1>Cuentas</h1>
+          <p>Bienvenido, [[storedUser.name]]! Has accedido al listado de Cuentas:</p>
+          </ br>
 
-      <div class="card">
-        <div class="circle">U</div>
-        <h1>View USUARIO</h1>
-        </ br>
+          <dom-bind>
+            <template is="dom-bind">
+              
+              <iron-ajax 
+                auto 
+                url="http://localhost:3000/api/account" 
+                handle-as="json" 
+                last-response="{{accounts}}">
+              </iron-ajax>
 
-        <dom-bind>
-<template is="dom-bind">
-  <!-- Fetch an array of users to be shown in the grid -->
-  <iron-ajax auto url="https://demo.vaadin.com/demo-data/1.0/people?count=200" handle-as="json" last-response="{{users}}"></iron-ajax>
+              <vaadin-grid aria-label="Basic Binding Example" items="[[accounts.accounts]]">
 
-  <!-- The array is set as the <vaadin-grid>'s "items" property -->
-  <vaadin-grid aria-label="Basic Binding Example" items="[[users.result]]">
+                <vaadin-grid-column width="50px" flex-grow="0">
+                  <template class="header">#</template>
+                  <template>[[index]]</template>
+                  <!-- If necessary, the footer could be set using <template class="footer"> -->
+                  <template class="footer">#</template>
+                </vaadin-grid-column>
 
-    <vaadin-grid-column width="50px" flex-grow="0">
-      <template class="header">#</template>
-      <template>[[index]]</template>
-      <!-- If necessary, the footer could be set using <template class="footer"> -->
-      <template class="footer">#</template>
-    </vaadin-grid-column>
+                <vaadin-grid-column>
+                  <template class="header">Number</template>
+                  <template>[[item.number]]</template>
+                  <template class="footer">Number</template>
+                </vaadin-grid-column>
 
-    <vaadin-grid-column>
-      <template class="header">
-        <span draggable="true">
-          First Name
-        </span>
-      </template>
-      <template>
-        <span draggable="true">
-          [[item.firstName]]
-        </span>
-      </template>
-      <template class="footer">First Name</template>
-    </vaadin-grid-column>
+                <vaadin-grid-column>
+                  <template class="header">Amount</template>
+                  <template>[[item.amount]]</template>
+                  <template class="footer">Amount</template>
+                </vaadin-grid-column>
 
-    <vaadin-grid-column>
-      <template class="header">Last Name</template>
-      <template>[[item.lastName]]</template>
-      <template class="footer">Last Name</template>
-    </vaadin-grid-column>
+                <vaadin-grid-column>
+                  <template class="header">Currency</template>
+                  <template>[[item.currency]]</template>
+                  <template class="footer">Currency</template>
+                </vaadin-grid-column>
 
-    <vaadin-grid-column width="150px">
-      <template class="header">Address</template>
-      <template>
-        <p style="white-space: normal">[[item.address.street]], [[item.address.city]]</p>
-      </template>
-      <template class="footer">Address</template>
-    </vaadin-grid-column>
+                <vaadin-grid-column>
+                  <template class="header">Type</template>
+                  <template>[[item.type]]</template>
+                  <template class="footer">Type</template>
+                </vaadin-grid-column>
 
-  </vaadin-grid>
-
-  </br>
-        
+              </vaadin-grid>
+            </template>
+          </dom-bind>
+        </div>
       </div>
     `;
   }

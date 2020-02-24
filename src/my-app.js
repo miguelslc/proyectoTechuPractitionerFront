@@ -89,10 +89,16 @@ class MyApp extends PolymerElement {
         }
       </style>
 
-      <app-location route="{{route}}" url-space-regex="^[[rootPath]]">
+      <app-location 
+        route="{{route}}" 
+        url-space-regex="^[[rootPath]]">
       </app-location>
 
-      <app-route route="{{route}}" pattern="[[rootPath]]:page" data="{{routeData}}" tail="{{subroute}}">
+      <app-route 
+        route="{{route}}" 
+        pattern="[[rootPath]]:page" 
+        data="{{routeData}}" 
+        tail="{{subroute}}">
       </app-route>
 
       <iron-localstorage name="user-storage" value="{{storedUser}}"></iron-localstorage>
@@ -108,16 +114,12 @@ class MyApp extends PolymerElement {
             <div name="index-home">
               <a href="[[rootPath]]index-home">Home</a>       
             </div>
-            
-            
-              <a href="[[rootPath]]listar-movimientos">Movimentos</a>
-            
-         
-            
-              <a href="[[rootPath]]alta-usuario">Usuario</a>
 
+            <div name="private" hidden$="[[!storedUser.loggedin]]">
+              <a href="[[rootPath]]listar-movimientos">Movimentos</a>
+              <a href="[[rootPath]]alta-usuario">Cuentas</a>
               <a href="[[rootPath]]gen-transfe">Transferencia</a>
-            
+            </div>
 
           </iron-selector>
         </app-drawer>
@@ -131,7 +133,7 @@ class MyApp extends PolymerElement {
               <a name="register-login" href="[[rootPath]]register-login" hidden$="[[storedUser.loggedin]]">Log in</a>
               <div hidden$="[[!storedUser.loggedin]]">
                 <span class="greeting">Hi [[storedUser.name]]!</span>
-                <log-out stored-user="" link></log-out>
+                <log-out stored-user="{{storedUser}}" link></log-out>
               </div>
             </app-toolbar>
           </app-header>
@@ -159,6 +161,7 @@ class MyApp extends PolymerElement {
       },
       routeData: Object,
       subroute: Object,
+      rootPath: String,
       storedUser: Object,
     };
   }

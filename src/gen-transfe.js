@@ -10,15 +10,13 @@
 
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
 import '@polymer/paper-material/paper-material';
-
+import '@polymer/iron-ajax/iron-ajax.js';
+import '@polymer/iron-localstorage/iron-localstorage.js';
 import '@polymer/iron-input/iron-input.js';
 import '@polymer/paper-input/paper-input';
 import '@polymer/paper-input/paper-input-container.js';
 import '@polymer/iron-form/iron-form';
 import '@polymer/paper-button/paper-button';
-import '@polymer/gold-cc-input/gold-cc-input';
-import '@polymer/gold-cc-cvc-input/gold-cc-cvc-input';
-import '@polymer/gold-cc-expiration-input/gold-cc-expiration-input';
 
 import './shared-styles.js';
 
@@ -32,6 +30,7 @@ class Transferencia extends PolymerElement {
         type: Object,
         value: {}
       },
+      storedUser: Object,
     }
   }
 
@@ -117,33 +116,25 @@ class Transferencia extends PolymerElement {
         on-error="handleUserError">
       </iron-ajax>
 
+      <iron-localstorage name="user-storage" value="{{storedUser}}"></iron-localstorage>
+      <brum-global-variable key="userData" value="{{storedUser}}"></brum-global-variable>
+      
       <div class="card">
         <H1>Formularo de Transferencias</H1>
-        <dom-module id="checkout-form">
-
-          <div class="horizontal layout center form-title">
-            <div class="avatar" item-icon></div>
-            <div class="flex company">ACME Goods Co.</div>
-          </div>
-      
-          <form is="iron-form" id="transfeForm" action="/">
-            <!--<paper-input name="name" label="Name on card" required autocomplete="cc-name"  ></paper-input>-->
 
             <paper-input-container>
               <label slot="input">Username</label>
-              <iron-input slot="input" bind-value="{{formData.username}}">
-                <input  id="username" type="text" value="{{formData.username}}" placeholder="Username">
+              <iron-input slot="input" bind-value="{{formData.name}}">
+                <input  id="name" type="text" value="{{formData.name}}" placeholder="Username">
               </iron-input>
             </paper-input-container>
 
-
-            <gold-cc-input name="cc-number" required auto-validate card-type="{{typeOfCard}}"  ></gold-cc-input>
-
-            <div class="horizontal layout">
-              <gold-cc-expiration-input name="cc-expiration" required auto-validate label="Expiration"></gold-cc-expiration-input>
-              <gold-cc-cvc-input name="cc-cvc" required auto-validate card-type="[[typeOfCard]]"></gold-cc-cvc-input>
-            </div>
-
+            <paper-input-container>
+              <label slot="input">Account</label>
+              <iron-input slot="input" bind-value="{{formData.account}}">
+                <input  id="name" type="text" value="{{formData.account}}" placeholder="Account">
+              </iron-input>
+            </paper-input-container>
 
             <paper-input-container>
               <label slot="input">Amount</label>
@@ -151,13 +142,10 @@ class Transferencia extends PolymerElement {
                 <input  id="amount" type="text" value="{{formData.amount}}" placeholder="Amount">
               </iron-input>
             </paper-input-container>
-
             
-            
-            <!--<paper-input name="amount" label="Amount" required ></paper-input>-->
             <paper-button on-click="_submit">Transferir</paper-button>
-          </form>
-        </dom-module>
+          
+        
         </ br>
         
 
@@ -166,20 +154,36 @@ class Transferencia extends PolymerElement {
   }
 
   _setReqBody(){
-    this.$.transfeForm.body = {user: this.transfeForm};
+    var hoy = new Date();
+    var dd = hoy.getDate();
+    var mm = hoy.getMonth()+1;
+    var yyyy = hoy.getFullYear();
+
+    if(dd<10)
+      dd='0'+dd; //agrega cero si el menor de 10
+    if(mm<10)
+      mm='0'+mm
+ 
+    this.$.transfeForm.body = {movement: this.formData};
+    this.$.transfeForm.body.movement.release = yyyy+"-"+mm+"-"+dd;
+    this.$.transfeForm.body.movement.detail = "Transferencia";
+    this.$.transfeForm.body.movement.email = this.storedUser.email;
   }
 
   _submit() {
-    this.$.transfeForm.submit();
-    this.$.transfeForm.url = 'http://localhost:3000/api/account/';
-    this.$.registerLoginAjax.generateRequest();
+    //this.$.transfeForm.submit();
+    this.$.transfeForm.url = 'http://localhost:5000/api/movements';
+    this._setReqBody();
+    this.$.transfeForm.generateRequest();
+    //console.log(this.$.transfeForm.body)
+    //this.$.transfeForm.submit();
   }
 
   handleUserResponse(event){
     var response = event.detail.response;
-    this.formData = {}
     // redirect to movimentos
-    this.set('route.path', '/lista-movimientos');
+    this.set('route.path', '/listar-movimientos');
+    this.formData = {}
     console.log(event);
   }
 

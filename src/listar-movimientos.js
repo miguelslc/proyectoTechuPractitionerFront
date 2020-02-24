@@ -15,7 +15,7 @@ import '@polymer/iron-input/iron-input.js';
 import '@polymer/paper-input/paper-input';
 import '@polymer/paper-button/paper-button.js';
 import '@vaadin/vaadin-grid/vaadin-grid';
-import '../node_modules/brum-global-variable/brum-global-variable.js'
+import '../node_modules/brum-global-variable/brum-global-variable.js';
 import './shared-styles.js';
 
 class Listar extends PolymerElement {
@@ -24,7 +24,7 @@ class Listar extends PolymerElement {
 
   static get properties() {
       return {
-          storedUser: Object
+        storedUser: Object
       };
   }
 
@@ -38,32 +38,31 @@ class Listar extends PolymerElement {
         }
       </style>
 
-
-      <iron-localstorage
-        name="user-storage"
-        value=""
+      <iron-localstorage 
+        name="user-storage" 
+        value="{{storedUser}}" 
         on-iron-localstorage-load="initStoredUser">
       </iron-localstorage>
-
-      <brum-global-variable key="userData" value=""></brum-global-variable>
+      
+      <brum-global-variable 
+        key="userData" 
+        value="{{storedUser}}">
+      </brum-global-variable>
 
       <div class="card">
-      
+        <h1>Movimientos</h1>
         <div hidden$="[[!storedUser.loggedin]]">
           <p>Bienvenido, [[storedUser.name]]! Has accedido al listado de movimientos:</p>
+          
 
           <dom-bind>
             <template is="dom-bind">
-              <!-- Fetch an array of users to be shown in the grid -->
-              <!--<iron-ajax auto url="https://demo.vaadin.com/demo-data/1.0/people?count=200" handle-as="json" last-response="{{users}}"></iron-ajax>-->
-              <iron-ajax 
-                auto 
-                url="http://localhost:5000/api/movements" 
-                handle-as="json" 
+              <iron-ajax
+                auto
+                handle-as="json"
+                url="http://localhost:3000/api/movements/"
                 last-response="{{movements}}">
               </iron-ajax>
-
-            
 
               <!-- The array is set as the <vaadin-grid>'s "items" property -->
               <vaadin-grid aria-label="Basic Binding Example" items="[[movements.data.movements]]">
@@ -78,7 +77,7 @@ class Listar extends PolymerElement {
                 <vaadin-grid-column>
                   <template class="header">
                     <span draggable="true">
-                      Detalle
+                      Nombre
                     </span>
                   </template>
                   <template>
@@ -86,7 +85,35 @@ class Listar extends PolymerElement {
                       [[item.name]]
                     </span>
                   </template>
+                  <template class="footer">Nombre</template>
+                </vaadin-grid-column>
+
+                <vaadin-grid-column>
+                  <template class="header">
+                    <span draggable="true">
+                      Detalle
+                    </span>
+                  </template>
+                  <template>
+                    <span draggable="true">
+                      Transferencia
+                    </span>
+                  </template>
                   <template class="footer">Detalle</template>
+                </vaadin-grid-column>
+
+                <vaadin-grid-column>
+                  <template class="header">
+                    <span draggable="true">
+                      Cuenta
+                    </span>
+                  </template>
+                  <template>
+                    <span draggable="true">
+                      [[item.amount]]
+                    </span>
+                  </template>
+                  <template class="footer">Cuenta</template>
                 </vaadin-grid-column>
 
                 <vaadin-grid-column>
@@ -108,20 +135,6 @@ class Listar extends PolymerElement {
         <p hidden$="[[storedUser.loggedin]]">Debes estar <a href="[[rootPath]]register-login">registrado</a> para acceder al listado de movimientos!</p>
       </div>
     `;
-  }
-  
-
-  initStoredUser() {
-      // if entering site on the secret quotes page, verify if logged in and if so, preload a secret quote
-      //if (this.storedUser.loggedin) {
-      //    this.getMovimientos();
-      //}
-  }
-
-  getMovimientos() {
-      // add token authorization and generate Ajax request
-      //this.$.getListarMovimientosAjax.headers['Authorization'] = 'Bearer ' + this.storedUser.access_token;
-      //this.$.getListarMovimientosAjax.generateRequest();
   }
 
 }

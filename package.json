@@ -40,7 +40,8 @@
     "@vaadin/vaadin-grid": "^5.5.1",
     "@webcomponents/webcomponentsjs": "^2.0.0",
     "brum-global-variable": "github:siebrum/brum-global-variable",
-    "gulp": "^4.0.2"
+    "gulp": "^4.0.2",
+    "polymer": "^0.5.0"
   },
   "devDependencies": {
     "polymer-cli": "^1.9.11",

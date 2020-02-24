@@ -112,8 +112,8 @@ class Register extends PolymerElement {
 
             <paper-input-container>
               <label slot="input">Username</label>
-              <iron-input slot="input" bind-value="{{formData.username}}">
-                <input  id="username" type="text" value="{{formData.username}}" placeholder="Username">
+              <iron-input slot="input" bind-value="{{formData.name}}">
+                <input  id="name" type="text" value="{{formData.name}}" placeholder="Username">
               </iron-input>
             </paper-input-container>
 
@@ -121,7 +121,7 @@ class Register extends PolymerElement {
             <paper-input-container>
               <label slot="input">Email</label>
               <iron-input slot="input" bind-value="{{formData.email}}">
-                <input  id="username" type="text" value="{{formData.email}}" placeholder="Email">
+                <input  id="email" type="text" value="{{formData.email}}" placeholder="Email">
               </iron-input>
             </paper-input-container>
 
@@ -152,32 +152,34 @@ class Register extends PolymerElement {
   }
 
   postLogin(){
-    this.$.registerLoginAjax.url = 'http://localhost:5000/api/users/login';
+    this.$.registerLoginAjax.url = 'http://localhost:3000/api/users/login';
     this._setReqBody();
     this.$.registerLoginAjax.generateRequest();
   }
 
   postRegister(){
-    this.$.registerLoginAjax.url = 'http://localhost:5000/api/users/register';
+    this.$.registerLoginAjax.url = 'http://localhost:3000/api/users/register';
     this._setReqBody();
     this.$.registerLoginAjax.generateRequest();
   }
 
   handleUserResponse(event){
-    var response = event.detail.response;
-    
-    if (response.id_token && response.user.token) {
-      this.error = '';
-      this.storedUser = {
-        name: response.user.name,
-        token: response.user.token,
-        loggedin: true
+    //var response = event.detail.response;
+    let response = JSON.parse(event.detail.response);
+    console.log(response);
+    if (response.user && response.user.token) {
+        this.error = '';
+        this.storedUser = {
+          name: response.user.name,
+          email: response.user.email,
+          token: response.user.token,
+          loggedin: true
       };
       // redirect to movimentos
-      this.set('route.path', '/lista-movimientos');
+      this.set('route.path', '/listar-movimientos');
     }
+    //console.log(this.storedUser);
     this.formData = {}
-    console.log(event);
   }
 
   handleUserError(event) {
