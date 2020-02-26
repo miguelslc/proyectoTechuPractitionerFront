@@ -171,16 +171,13 @@ class Transferencia extends PolymerElement {
   }
 
   _submit() {
-    //this.$.transfeForm.submit();
-    this.$.transfeForm.url = 'http://localhost:5000/api/movements';
+    this.$.transfeForm.url = window.Polymer.apihost + '/api/movements';
     this._setReqBody();
     this.$.transfeForm.generateRequest();
-    //console.log(this.$.transfeForm.body)
-    //this.$.transfeForm.submit();
   }
 
   handleUserResponse(event){
-    var response = event.detail.response;
+    //var response = event.detail.response;
     // redirect to movimentos
     this.set('route.path', '/listar-movimientos');
     this.formData = {}

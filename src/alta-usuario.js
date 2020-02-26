@@ -54,7 +54,8 @@ class Usuario extends PolymerElement {
               
               <iron-ajax 
                 auto 
-                url="http://localhost:3000/api/account" 
+                <!--url="http://localhost:3000/api/account"--> 
+                url=https://pure-sands-80166.herokuapp.com/api/account"
                 handle-as="json" 
                 last-response="{{accounts}}">
               </iron-ajax>

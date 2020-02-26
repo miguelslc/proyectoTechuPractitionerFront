@@ -6,19 +6,17 @@
   "license": "BSD-3-Clause",
   "repository": "Polymer/polymer-starter-kit",
   "scripts": {
-    "start": "polymer serve",
     "build": "polymer build",
-    "lint": "polymer lint",
+    "lint": "npm run lint:javascript && polymer lint",
+    "lint:javascript": "eslint . --ext js,html --ignore-path .gitignore",
     "test": "polymer test",
-    "test:integration": "polymer build # test that psk builds without error with the CLI"
+    "test:integration": "polymer build # test that psk builds without error with the CLI",
+    "start": "node server.js"
   },
   "dependencies": {
     "@lrnwebcomponents/iron-data-table": "^2.0.10",
     "@polymer/app-layout": "^3.0.0-pre.15",
     "@polymer/app-route": "^3.0.0-pre.15",
-    "@polymer/gold-cc-cvc-input": "^3.0.2",
-    "@polymer/gold-cc-expiration-input": "^3.0.1",
-    "@polymer/gold-cc-input": "^3.0.1",
     "@polymer/iron-ajax": "^3.0.1",
     "@polymer/iron-flex-layout": "^3.0.0-pre.15",
     "@polymer/iron-form": "^3.0.1",
@@ -34,14 +32,13 @@
     "@polymer/paper-icon-button": "^3.0.0-pre.15",
     "@polymer/paper-input": "^3.2.0",
     "@polymer/paper-material": "^3.0.1",
-    "@polymer/paper-progress": "^3.0.1",
     "@polymer/platinum-sw": "^3.0.0-pre.21",
     "@polymer/polymer": "^3.0.0",
     "@vaadin/vaadin-grid": "^5.5.1",
     "@webcomponents/webcomponentsjs": "^2.0.0",
     "brum-global-variable": "github:siebrum/brum-global-variable",
-    "gulp": "^4.0.2",
-    "polymer": "^0.5.0"
+    "express": "^4.17.1",
+    "gulp": "^4.0.2"
   },
   "devDependencies": {
     "polymer-cli": "^1.9.11",

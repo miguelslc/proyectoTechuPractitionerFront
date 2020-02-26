@@ -60,7 +60,8 @@ class Listar extends PolymerElement {
               <iron-ajax
                 auto
                 handle-as="json"
-                url="http://localhost:3000/api/movements/"
+                <!--url="http://localhost:3000/api/movements/"-->
+                url="https://pure-sands-80166.herokuapp.com/api/movements"
                 last-response="{{movements}}">
               </iron-ajax>
 

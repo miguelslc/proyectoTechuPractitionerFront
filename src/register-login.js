@@ -152,19 +152,21 @@ class Register extends PolymerElement {
   }
 
   postLogin(){
-    this.$.registerLoginAjax.url = 'http://localhost:3000/api/users/login';
+    
+    this.$.registerLoginAjax.url = window.Polymer.apihost + '/api/users/login';
     this._setReqBody();
     this.$.registerLoginAjax.generateRequest();
   }
 
   postRegister(){
-    this.$.registerLoginAjax.url = 'http://localhost:3000/api/users/register';
+    
+    this.$.registerLoginAjax.url = window.Polymer.apihost +  '/api/users/register';
     this._setReqBody();
     this.$.registerLoginAjax.generateRequest();
   }
 
   handleUserResponse(event){
-    //var response = event.detail.response;
+    
     let response = JSON.parse(event.detail.response);
     console.log(response);
     if (response.user && response.user.token) {
@@ -178,7 +180,7 @@ class Register extends PolymerElement {
       // redirect to movimentos
       this.set('route.path', '/listar-movimientos');
     }
-    //console.log(this.storedUser);
+    
     this.formData = {}
   }
 
